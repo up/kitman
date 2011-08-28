@@ -19,7 +19,7 @@ usage
 		     <span class="gross">Price (incl. VAT)</span>
 		   </li>
 		   {{#articles}}
-		     <li>
+		   <li>
 		       <span class="num">{{num}}</span>
 		       <span class="desc">{{desc}}</span>
 		       <span class="price">{{price|EURO}}</span>
