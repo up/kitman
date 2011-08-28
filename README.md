@@ -75,6 +75,7 @@ Kitman supports two formats:
 * 1,234.56 (US-Format - default)
 * 1.234,56 (EU-Format - de, fr, ..)
 
+
 	kitman.currencyRegion = 'de';
 
 Simple String Replacement:
