@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>KITMAN Template Engine</title>
+  <style type="text/css">
+  body * {
+    font-family: arial;
+    margin: 0;
+    padding: 0;
+  } 
+  div#page {
+    margin: 40px auto;
+    width: 700px;
+  } 
+  h1 {
+	  margin: 0 0 20px;
+  }
+  h1 img {
+	  position: relative;
+	  top: 5px;
+  }
+  ul {
+    list-style-type: none;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    margin: 20px 0;
+  }  
+  ol {
+    margin: 10px 30px;
+  }  
+  li {
+    padding: 5px 10px;
+  }
+  ul li {
+    border-bottom: 1px solid #ccc;
+  }
+  li.head {
+    border-top: 1px solid #ccc;
+    background: #F8F8F8;
+    font-weight: bold;      
+  }    
+  span {
+    font-size: 12px;
+    display: inline-block;
+    text-align: right;
+    width: 80px;
+  }
+  span.num {
+    width: 50px;
+    padding-right: 10px;
+  } 
+  span.desc {
+    text-align: left;
+    width: 300px;
+  } 
+  span.gross {
+    width: 120px;
+  } 
+
+  h4 {
+    padding: 20px 0 10px;
+  }
+  pre {
+    padding: 10px;
+    margin: 5px 0;
+    font-family: monospace;
+    background: #F8F8F8;
+    border: 1px dashed #ddd;
+  }
+  div#footer {
+	  margin-top: 40px;
+	  font-size: 12px;
+	  text-align: right;
+  }
+  </style>
+</head>
+<body>
+
+<div id="page">
+
+<h1>
+	<img src="kitman.gif" />
+	KITMAN Template Engine
+</h1>
+
+<div id="preview">
+
+ <h2>{{header}}</h2>
+ <p>Date: {{.|DATE|dd.MM.yyyy}}</p>
+<ul>
+  <li class="head">
+    <span class="num">In Stock</span>
+    <span class="desc">Description</span>
+    <span class="price">Price</span>
+    <span class="vat">VAT (19%)</span>
+    <span class="gross">Price (incl. VAT)</span>
+  </li>
+  {{#articles}}
+    <li>
+      <span class="num">{{num}}</span>
+      <span class="desc">{{desc}}</span>
+      <span class="price">{{price|EURO}}</span>
+      <span class="vat">{{price|*0.19|EURO}}</span>
+      <span class="gross">{{price|*1.19|EURO}}</span>
+    </li>
+  {{/articles}}
+</ul>
+
+</div>
+
+<a href="javascript: kitman.restore()">restore</a><br/>
+<a href="javascript: kitman.update(data1)">update with data1</a><br/>
+<a href="javascript: kitman.update(data2)">update with data2</a>
+<br/><br/>
+
+<h3>Usage / Examples</h3>
+
+<h4>JS/Json Data object:</h4>
+<pre>
+var data1 = {
+  "header": "Article List 1",
+  "articles": [ 
+    { "num" : "76", "desc" : "Football Shirt", "price" : "42.01 €" },
+    { "num" : "20", "desc" : "Football Shorts", "price" : "16.80 €" },
+    { "num" : "4", "desc" : "Football Shoes", "price" : "84.02 €" },
+    { "num" : "1", "desc" : "Lionel Messi Football Kit 'Gold'", "price" : "840.34 €" }
+  ]
+};
+
+var data2 = {
+ "header": "Article List 2",
+ "articles": [ 
+    { "num" : "1", "desc" : "Football Shirt", "price" : "42.01 €" },
+    { "num" : "0", "desc" : "Football Shorts", "price" : "16.80 €" }
+ ]
+};
+</pre>
+
+
+<h4>Load and execute the template:</h4>
+<pre>kitman.run("#preview", data, true);</pre>
+<p>or</p>
+<pre>
+var newText = kitman.run("#preview", data); 
+document.getElementById('preview').innerHTML = newText;
+</pre>
+
+<h4>Restore, Rerun and Update:</h4>
+<pre>
+kitman.restore();
+kitman.rerun();
+kitman.update(data1);
+kitman.update(data2);
+</pre>
+
+
+<h4>National Language Support</h4>
+<p>
+	Numbers, including currency, can have different representations. For example, the decimal separator, or radix character, 
+	is a dot (.) in some regions and a comma (,) in others, while the thousands separator can be a dot, comma, or even a space. 
+</p>
+<p>
+Kitman supports two formats:
+<ol>
+	<li>1,234.56 (US-Format - default)</li>
+	<li>1.234,56 (EU-Format - de, fr, ..)</li>
+</ol>
+</p>
+<pre>
+kitman.currencyRegion = 'de';
+</pre>
+
+<h4>Simple String Replacement:</h4>
+<pre>
+&lt;h2>{{header}}&lt;/h2>
+</pre>
+
+<h4>Dynamic list generation:</h4>
+<pre>
+&lt;ul>
+  {{#articles}}
+    &lt;li>
+    &lt;span class="num">{{num}}&lt;/span>
+    &lt;span class="desc">{{desc}}&lt;/span>
+    &lt;/li>
+  {{/articles}}
+&lt;/ul>
+</pre>
+
+<h4>Multiplication:</h4>
+<pre>&lt;p>{{price|*0.19}}&lt;/p></pre>
+
+<h4>Currency formatting: </h4>
+<pre>
+&lt;p>{{price|EURO}}&lt;/p>
+</pre>
+
+<h4>Multiplication and currency formatting: </h4>
+<pre>
+&lt;p>{{price|*1.19|EURO}}&lt;/p>
+</pre>
+
+<h4>Numeric date formatting (now timestamp):</h4>
+<pre>
+{{.|DATE|dd.MM.yyyy}}          -> 20.08.2011
+{{.|DATE|dd.MM.yy}}            -> 20.08.11
+{{.|DATE|yyyy-MM-dd}}          -> 2011-08-20
+{{.|DATE|yyyy-MM-dd HH:mm}}    -> 2011-08-20 11:23
+{{.|DATE|yyyy-MM-dd HH:mm:ss}} -> 2011-08-20 11:23:22
+{{.|DATE|MM/dd/yyyy hh:mm t}}  -> 08/20/2011 11:23 am
+{{.|DATE|MM-yyyy hh:mmt}}      -> 08-2011 11:23am
+</pre>
+ 
+
+<div>
+<div id="footer">
+  Copyright &copy; 2011 Uli Preuss
+</div>
+
+  <script type="text/javascript" src="kitman.js"></script>
+  <script type="text/javascript">
+  var data1 = {
+    "header": "Article List 1",
+    "articles": [ 
+      { "num" : "76", "desc" : "Football Shirt", "price" : "42.01 €" },
+      { "num" : "20", "desc" : "Football Shorts", "price" : "16.80 €" },
+      { "num" : "4", "desc" : "Football Shoes", "price" : "84.02 €" },
+      { "num" : "1", "desc" : "Lionel Messi Football Kit 'Gold'", "price" : "840.34 €" }
+    ]
+  };
+  var data2 = {
+	  "header": "Article List 2",
+	  "articles": [ 
+    { "num" : "1", "desc" : "Football Shirt", "price" : "42.01 €" },
+    { "num" : "0", "desc" : "Football Shorts", "price" : "16.80 €" }
+	  ]
+	};
+	
+  //kitman.currencyRegion = 'de';
+  
+  // load and execute the template
+  kitman.run("#preview", data1, true);
+  </script>
+
+</body>
+</html>
+    
