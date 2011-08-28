@@ -50,6 +50,71 @@ JS/Json Data object:
 	 ]
 	};
 	
+Load and execute the template:
+
+	kitman.run("#preview", data, true);
+
+or
+
+	var newText = kitman.run("#preview", data); 
+	document.getElementById('preview').innerHTML = newText;
+
+Restore, Rerun and Update:
+
+	kitman.restore();
+	kitman.rerun();
+	kitman.update(data1);
+	kitman.update(data2);
+
+National Language Support
+
+Numbers, including currency, can have different representations. For example, the decimal separator, or radix character, is a dot (.) in some regions and a comma (,) in others, while the thousands separator can be a dot, comma, or even a space. 
+
+Kitman supports two formats:
+
+* 1,234.56 (US-Format - default)
+* 1.234,56 (EU-Format - de, fr, ..)
+
+	kitman.currencyRegion = 'de';
+
+Simple String Replacement:
+
+	<h2>{{header}}</h2>
+
+Dynamic list generation:
+
+	<ul>
+	  {{#articles}}
+	    <li>
+	      <span class="num">{{num}}</span>
+	      <span class="desc">{{desc}}</span>
+	    </li>
+	  {{/articles}}
+	</ul>
+	
+Multiplication:
+
+	<p>{{price|*0.19}}</p>
+
+Currency formatting: 
+
+	<p>{{price|EURO}}</p>
+
+Multiplication and currency formatting: 
+
+	<p>{{price|*1.19|EURO}}</p>
+
+Numeric date formatting (now timestamp):
+
+	{{.|DATE|dd.MM.yyyy}}          -> 20.08.2011
+	{{.|DATE|dd.MM.yy}}            -> 20.08.11
+	{{.|DATE|yyyy-MM-dd}}          -> 2011-08-20
+	{{.|DATE|yyyy-MM-dd HH:mm}}    -> 2011-08-20 11:23
+	{{.|DATE|yyyy-MM-dd HH:mm:ss}} -> 2011-08-20 11:23:22
+	{{.|DATE|MM/dd/yyyy hh:mm t}}  -> 08/20/2011 11:23 am
+	{{.|DATE|MM-yyyy hh:mmt}}      -> 08-2011 11:23am
+
+	
 
 
 
