@@ -7,6 +7,7 @@ Javascript Template Engine.
 usage
 ------
 
+HTML Example:
 
 	<h2>{{header}}</h2>
 	<p>Date: {{.|DATE|dd.MM.yyyy}}</p>
@@ -29,7 +30,27 @@ usage
 	  {{/articles}}
 	</ul>
 		
+JS/Json Data object:
+
+	var data1 = {
+	  "header": "Article List 1",
+	  "articles": [ 
+	    { "num" : "76", "desc" : "Football Shirt", "price" : "42.01 €" },
+	    { "num" : "20", "desc" : "Football Shorts", "price" : "16.80 €" },
+	    { "num" : "4", "desc" : "Football Shoes", "price" : "84.02 €" },
+	    { "num" : "1", "desc" : "Lionel Messi Football Kit 'Gold'", "price" : "840.34 €" }
+	  ]
+	};
+
+	var data2 = {
+	 "header": "Article List 2",
+	 "articles": [ 
+	    { "num" : "1", "desc" : "Football Shirt", "price" : "42.01 €" },
+	    { "num" : "0", "desc" : "Football Shorts", "price" : "16.80 €" }
+	 ]
+	};
+	
 
 
 
-> Copyright 2011 Uli Preuss
+> Copyright &copy; 2011 Uli Preuss
