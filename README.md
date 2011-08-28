@@ -8,9 +8,9 @@ usage
 ------
 
 
-     <h2>{{header}}</h2>
-		 <p>Date: {{.|DATE|dd.MM.yyyy}}</p>
-		 <ul>
+		<h2>{{header}}</h2>
+		<p>Date: {{.|DATE|dd.MM.yyyy}}</p>
+		<ul>
 		   <li class="head">
 		     <span class="num">In Stock</span>
 		     <span class="desc">Description</span>
@@ -27,7 +27,7 @@ usage
 		       <span class="gross">{{price|*1.19|EURO}}</span>
 		     </li>
 		   {{/articles}}
-		 </ul>
+		</ul>
 		
 
 
